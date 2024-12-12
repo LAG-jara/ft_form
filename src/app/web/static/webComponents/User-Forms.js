@@ -18,10 +18,7 @@ class UserForms extends HTMLElement {
 	}
   
 	importStyles() {
-	//   const generalBootstrap = document.createElement('link');
-	//   generalBootstrap.setAttribute('rel', 'stylesheet');
-	//   generalBootstrap.setAttribute('href', window.djangoStaticUrls.bootstrapChanges);
-  
+	
 	  const styleLink = document.createElement('link');
 	  styleLink.setAttribute('rel', 'stylesheet');
 	  styleLink.setAttribute('href', window.djangoStaticUrls.studentHomeStyles);
@@ -58,7 +55,7 @@ class UserForms extends HTMLElement {
                 <!-- Second column, aligned to the center -->
                 <div  class="col-2 d-flex flex-column align-items-center justify-content-center pe-1 mb-5 position-relative ">
                     <!-- Stars stacked vertically -->
-                     <div id="trophy-${id}"class="d-flex flex-column align-items-center justify-content-center star-container mb-5">
+                     <div id="trophy-${id}"class="star-container d-flex flex-column align-items-center justify-content-center  mb-5">
 						
                         
                         <!-- Checkbox behind the stars -->
@@ -68,7 +65,7 @@ class UserForms extends HTMLElement {
                 <!-- Third column, aligned to the end -->
                 <div class="col-2 d-flex align-items-center pe-1">
                     <abbr title="${startDate} - ${endDate}">
-                        <img class="mb-3" src="${window.djangoStaticUrls.calendarIcon}" width="30" height="30">
+                        <img class="calendars mb-3" src="${window.djangoStaticUrls.calendarIcon}" width="30" height="30">
                     </abbr>
                 </div>
             </div>
@@ -81,14 +78,14 @@ class UserForms extends HTMLElement {
                     <!-- Third Row -->
                     <div class="row ms-2 me-2">
                         <!-- <div class="col-md-12"> -->
-                            <div class="p-3 d-flex justify-content-start ">${minutes ? minutes :  '5'} min</div>
+                            <div class="p-3 d-flex justify-content-start">${minutes ? minutes :  '5'} min</div>
                         <!-- </div> -->
                     </div>
                     
                     <div class="row ms-2 me-2 mt-5">
                         <div class="col-md-12 d-flex justify-content-end align-items-end mt-3">
                           
-                            <button onclick="window.location.href='http://localhost:8000/answerForm?formid=${id}';" type="button" class="btn " style="background-color: ${color}; border 0px; font-weight: bold; color: white;">ENTER</button>
+                            <button onclick="window.location.href='http://localhost:8000/answerForm?formid=${id}&userid=${localStorage.getItem('id')}';" type="button" class="btn " style="background-color: ${color}; border 0px; font-weight: bold; color: white;">ENTER</button>
                         </div>
                     </div>
 			`;
@@ -103,14 +100,7 @@ class UserForms extends HTMLElement {
 					background-size: cover;
 					background-repeat: no-repeat;
 					background-position: center;
-				}
-				.star-container {
-					border-radius: 50%;
-					background: #ededed;
-					height: 50px;
-					width: 50px;
-				}
-				
+			}
 			`;
 		
 			let cardHeader = card.querySelector(`#header-${id}`);
@@ -130,7 +120,7 @@ class UserForms extends HTMLElement {
 				let trophyParent = card.querySelector(`#trophy-${id}`); 
 				if (trophyParent) {
 					let completeTrophy = document.createElement('img');
-					completeTrophy.src = window.djangoStaticUrls.trophyBlack
+					completeTrophy.src = window.djangoStaticUrls.trophy
 					completeTrophy.width = 30;
 					completeTrophy.height = 30;
 					
@@ -190,18 +180,19 @@ class UserForms extends HTMLElement {
 		console.log('THEME', theme);
 		if (theme === 'light') {
 			generalBootstrap.setAttribute('rel', 'stylesheet');
-			generalBootstrap.setAttribute('href', window.djangoStaticUrls.bootstrapChangesBlack);
+			generalBootstrap.setAttribute('href', window.djangoStaticUrls.bootstrapChangesWhite);
+			window.djangoStaticUrls.calendarIcon = window.djangoStaticUrls.calendarIconBlack;
+			window.djangoStaticUrls.trophy = window.djangoStaticUrls.trophyBlack;
 			this.shadow.appendChild(generalBootstrap);
 		}
 		else {
 			generalBootstrap.setAttribute('rel', 'stylesheet');
-			generalBootstrap.setAttribute('href', window.djangoStaticUrls.bootstrapChangesWhite);
+			generalBootstrap.setAttribute('href', window.djangoStaticUrls.bootstrapChangesBlack);
+			window.djangoStaticUrls.calendarIcon = window.djangoStaticUrls.calendarIconWhite;
+			window.djangoStaticUrls.trophy = window.djangoStaticUrls.trophyWhite;
 			this.shadow.appendChild(generalBootstrap);
 		}
-		
-
-
-
+	
 		const url = `${baseUrl}/api/user-forms/${userId}/`;
 
 		// Make the GET request
@@ -226,7 +217,6 @@ class UserForms extends HTMLElement {
 						state: element.is_new ? 'New' : 'Normal',
 						color: localStorage.getItem('color'),
 						imageUrl: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
-						theme_color: theme_color
 					})
 				});
 				

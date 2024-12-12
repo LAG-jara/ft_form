@@ -13,12 +13,19 @@
 
 	<style>
 		body {
-            background-color: #353333;
+            /* background-color: #353333; */
             width: 100%;
             height: 100vh;
             margin: 0;
             overflow: scroll;
         }
+		.dark-theme {
+			background: #353333 ;
+		}
+
+		.light-theme {
+			background: #ededed !important;
+		}
 	</style>
 	  <script>
         window.djangoStaticUrls = {
@@ -26,9 +33,13 @@
 			bootstrapChangesBlack: "{% static 'styles/bootstrap_changes_black.css' %}",
             studentHomeStyles: "{% static 'styles/studentHome/cards/styles.css' %}",
             bootstrapCSS: "{% static 'bootstrap.min.css' %}",
-            calendarIcon: "{% static 'styles/studentHome/cards/calendar2.svg' %}",
+            calendarIcon: "{% static 'styles/studentHome/cards/calendar-black.svg' %}",
+			calendarIconWhite: "{% static 'styles/studentHome/cards/calendar-white.svg' %}",
+			calendarIconBlack: "{% static 'styles/studentHome/cards/calendar-black.svg' %}",
             trophyBlack: "{% static 'styles/studentHome/cards/trophy-black.svg' %}",
-            trophy: "{% static 'styles/studentHome/cards/trophy.svg' %}"
+			trophyWhite: "{% static 'styles/studentHome/cards/trophy-white.svg' %}",
+            trophyYellow: "{% static 'styles/studentHome/cards/trophy-yellow.svg' %}",
+			trophy: "{% static 'styles/studentHome/cards/trophy-black.svg' %}"
         };
 		
     </script>

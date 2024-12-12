@@ -11,3 +11,12 @@
 title {
 	color: #f8f8f8 !important;
 }
+
+.star-container {
+	border-radius: 50% !important;
+	background: #6D6D6D !important;
+	height: 50px;
+	width: 50px;
+	position: absolute;
+}
+
