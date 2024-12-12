@@ -85,6 +85,10 @@
 			profile_name.textContent = `${username} ${title}`
 
 		}
+		// Si da error al pillar color entonces se pone el rojo que habia antes por defecto
+		const color = localStorage.getItem('color') || '#ff4747';
+		const logoutButton = document.querySelector('.logout-btn');
+		logoutButton.style.backgroundColor = color;
 	</script>
 	<script src="{% static '/styles/studentHome/Header/logout.js' %}"></script>
 	<script src="{% static '/styles/studentHome/Header/theme.js' %}"></script>
