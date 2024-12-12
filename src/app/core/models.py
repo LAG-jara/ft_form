@@ -389,3 +389,16 @@ class FileAnswer(models.Model):
     def __str__(self):
         return f"File Answer: {self.value}"
 
+class Campus(models.Model):
+    id_42 = models.IntegerField(unique=True)
+    name = models.CharField(max_length=255, db_index=True)
+
+    def __str__(self):
+        return self.name
+
+class Cursus(models.Model):
+    id_42 = models.IntegerField(unique=True)
+    name = models.CharField(max_length=255, db_index=True)
+
+    def __str__(self):
+        return self.name
