@@ -175,14 +175,15 @@ class MultyOptions extends HTMLElement{
     connectedCallback(){
         this.question = this.getAttribute('question');
         this.numQuestion = this.getAttribute('numQuestion');
-		let options = JSON.parse(this.getAttribute('options'));
+		console.log(this.getAttribute('options'));
+		let options = this.getAttribute('options').split(',');
 		this.render();
 		let inputContainer = this.shadowRoot.querySelector('.input-container');
 		let optionsContainer = document.createElement('div');
 		optionsContainer.classList.add('options-container');
 		inputContainer.appendChild(optionsContainer);
 		
-		options.choices.forEach(option => {
+		options.forEach(option => {
 			let inputContainer = this.shadowRoot.querySelector('.options-container');
 			let pairContainer = document.createElement('div');
 			pairContainer.classList.add('pair-container');

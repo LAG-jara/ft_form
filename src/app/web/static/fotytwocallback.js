@@ -12,14 +12,16 @@ if (code && state){
     })
     .then(response => response.json())
     .then(data => {
+		console.log(data);
         if (data.access && data.refresh_token){
-            document.cookie = `access_token=${data.access_token}`;
-            document.cookie = `refresh_token=${data.refresh_token}`;
+			console.log(data.access_token);
+            document.cookie = `access_token=${data.access}; path=/`;
+        	document.cookie = `refresh_token=${data.refresh_token}; path=/`;
             localStorage.setItem('username', data.username);
 
-            localStorage.setItem('user_img', data.user_img);
+            localStorage.setItem('user_img', data.profile_img);
             localStorage.setItem('is_staff', data.is_staff);
-            localStorage.setItem('coalition', data.coalition);22
+            localStorage.setItem('coalition', data.coalition);
             localStorage.setItem('color', data.color);
             localStorage.setItem('coalition_img', data.coalition_img);
             localStorage.setItem('title', data.title);
