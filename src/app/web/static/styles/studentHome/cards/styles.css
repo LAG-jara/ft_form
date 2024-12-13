@@ -28,12 +28,20 @@
 	/* Centers the background image */
 }
 
-.star-container {
+/* .star-container {
 	border-radius: 50%;
 	background: rgb(240, 240, 240) ;
 	height: 50px;
 	width: 50px;
 	position: absolute;
+} */
+
+.dark-theme {
+	background: #6D6D6D !important;
+}
+
+.light-theme {
+	background: #ededed !important;
 }
 
 #star {

@@ -13,21 +13,33 @@
 
 	<style>
 		body {
-            background-color: #353333;
+            /* background-color: #353333; */
             width: 100%;
             height: 100vh;
             margin: 0;
             overflow: scroll;
         }
+		.dark-theme {
+			background: #353333 ;
+		}
+
+		.light-theme {
+			background: #ededed !important;
+		}
 	</style>
 	  <script>
         window.djangoStaticUrls = {
-            bootstrapChanges: "{% static 'styles/bootstrap_changes_white.css' %}",
+            bootstrapChangesWhite: "{% static 'styles/bootstrap_changes_white.css' %}",
+			bootstrapChangesBlack: "{% static 'styles/bootstrap_changes_black.css' %}",
             studentHomeStyles: "{% static 'styles/studentHome/cards/styles.css' %}",
             bootstrapCSS: "{% static 'bootstrap.min.css' %}",
-            calendarIcon: "{% static 'styles/studentHome/cards/calendar2.svg' %}",
+            calendarIcon: "{% static 'styles/studentHome/cards/calendar-black.svg' %}",
+			calendarIconWhite: "{% static 'styles/studentHome/cards/calendar-white.svg' %}",
+			calendarIconBlack: "{% static 'styles/studentHome/cards/calendar-black.svg' %}",
             trophyBlack: "{% static 'styles/studentHome/cards/trophy-black.svg' %}",
-            trophy: "{% static 'styles/studentHome/cards/trophy.svg' %}"
+			trophyWhite: "{% static 'styles/studentHome/cards/trophy-white.svg' %}",
+            trophyYellow: "{% static 'styles/studentHome/cards/trophy-yellow.svg' %}",
+			trophy: "{% static 'styles/studentHome/cards/trophy-black.svg' %}"
         };
 		
     </script>
@@ -57,7 +69,7 @@
 		<i class="bi bi-brightness-high-fill theme-icon d-none" id="lightModeIcon"></i>
 	</header>
 
-		<user-forms></user-forms>
+		<user-forms theme="dark"></user-forms>
 	<script>
 		
 		const user_img = localStorage.getItem('user_img');
@@ -82,9 +94,9 @@
 		if (username) {
 			// Set the background image of the header element
 			const profile_name = document.getElementById('user-title');
-			profile_name.textContent = `${username} ${title}`
-
+			profile_name.textContent = `${username} ${title}`;
 		}
+
 		// Si da error al pillar color entonces se pone el rojo que habia antes por defecto
 		const color = localStorage.getItem('color') || '#ff4747';
 		const logoutButton = document.querySelector('.logout-btn');
