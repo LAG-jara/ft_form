@@ -4,13 +4,15 @@ from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import status
+import logging
 from django.utils.timezone import now
 from core.models import (SentForm, TextQuestion, BooleanQuestion, OptionQuestion, MultipleChoiceQuestion,
                          NumberQuestion, EmailQuestion, ScaleQuestion, DateQuestion, URLQuestion, FileQuestion)
 from core.models import (Answer, CharFieldAnswer, BooleanAswer, SingleChoiceAnswer, MultipleChoiceAnswer, NumberAnswer,
-                         EmailAnswer, ScaleAnswer,DateAnswer, URLAnswer, FileAnswer)
+                         EmailAnswer, ScaleAnswer,DateAnswer, URLAnswer, FileAnswer, User)
 from .serializers import SentFormSerializer, UserFormsSerializer
 from .permissions import IsUserOfSentForm
+
 
 
 # Vista de un SentForm especifico defindo por sent_form_id de un usuario especifico definido por user_id
@@ -71,8 +73,8 @@ class SentFormView(APIView):
 
         # Creamos un registro de Answer
         answer = Answer.objects.create(
-            user_id = user_id,
-            sent_form_id = sent_form.id,
+            user = User.objects.get(pk=user_id),
+            sent_form = SentForm.objects.get(pk=sent_form_id) ,
             created_at = now(),
         )
 
@@ -80,157 +82,158 @@ class SentFormView(APIView):
         #acorde al tipo de pregunta
         for response in responses:
             question_type = response.get("question_type")
-            question_id = response.get("question_id")
-            value = response.get("value")
+            question = response.get("question_id")
+            response = response.get("response")
 
             if question_type == "text":
                 # Validamos que esa pregunta exista, es decir, que el question_id
                 #que se envía realmente exista en nuestra BBDD
                 try:
-                    question = TextQuestion.objects.get(id=question_id)
+                    question = TextQuestion.objects.get(id=question)
                 except TextQuestion.DoesNotExist:
-                    return Response({"detail": f"Pregunta de texto con id {question_id} no encontrada"},
+                    return Response({"detail": f"Pregunta de texto con id {question} no encontrada"},
                         status=status.HTTP_404_NOT_FOUND,)
                 # Ahora creamos el registro de CharFieldAnswer
                 CharFieldAnswer.objects.create(
-                    value = value,
                     answer_id = answer,
-                    question_id = question,
+					question_id=question,
+					value=response,
                 )
 
             elif question_type == "boolean":
                 # Validamos que esa pregunta exista, es decir, que el question_id
                 #que se envía realmente exista en nuestra BBDD
+                
                 try:
-                    question = BooleanQuestion.objects.get(id=question_id)
+                    question = BooleanQuestion.objects.get(id=question)
                 except BooleanQuestion.DoesNotExist:
-                    return Response({"detail": f"Pregunta booleana con id {question_id} no encontrada"},
+                    return Response({"detail": f"Pregunta booleana con id {question} no encontrada"},
                         status=status.HTTP_404_NOT_FOUND,)
                 # Ahora creamos el registro de BooleanAnswer
                 BooleanAswer.objects.create(
-                    value = value,
-                    answer_id = answer,
-                    question_id = question,
+              		answer_id = answer,
+					question_id=question,
+					value = True if response == ['Yes'] else  False
                 )
 
             elif question_type == "option":
                 # Validamos que esa pregunta exista, es decir, que el question_id
                 #que se envía realmente exista en nuestra BBDD
                 try:
-                    question = OptionQuestion.objects.get(id=question_id)
+                    question = OptionQuestion.objects.get(id=question)
                 except OptionQuestion.DoesNotExist:
-                    return Response({"detail": f"Pregunta opciones con id {question_id} no encontrada"},
+                    return Response({"detail": f"Pregunta opciones con id {question} no encontrada"},
                         status=status.HTTP_404_NOT_FOUND,)
                 # Ahora creamos el registro de SingleChoiceAnswer
                 SingleChoiceAnswer.objects.create(
-                    value = value,
                     answer_id = answer,
-                    question_id = question,
+					question_id=question,
+					value=response,
                 )
             elif question_type == "multiple_choice":
                 # Validamos que esa pregunta exista, es decir, que el question_id
                 #que se envía realmente exista en nuestra BBDD
                 try:
-                    question = MultipleChoiceQuestion.objects.get(id=question_id)
+                    question = MultipleChoiceQuestion.objects.get(id=question)
                 except MultipleChoiceQuestion.DoesNotExist:
-                    return Response({"detail": f"Pregunta multi opciones con id {question_id} no encontrada"},
+                    return Response({"detail": f"Pregunta multi opciones con id {question} no encontrada"},
                         status=status.HTTP_404_NOT_FOUND,)
                 # Ahora creamos el registro de MultipleChoiceAnswer
                 MultipleChoiceAnswer.objects.create(
-                    value = value,
                     answer_id = answer,
-                    question_id = question,
+					question_id=question,
+					value=response,
                 )
 
             elif question_type == "number":
                 # Validamos que esa pregunta exista, es decir, que el question_id
                 #que se envía realmente exista en nuestra BBDD
                 try:
-                    question =NumberQuestion.objects.get(id=question_id)
+                    question =NumberQuestion.objects.get(id=question)
                 except NumberQuestion.DoesNotExist:
-                    return Response({"detail": f"Pregunta number con id {question_id} no encontrada"},
+                    return Response({"detail": f"Pregunta number con id {question} no encontrada"},
                         status=status.HTTP_404_NOT_FOUND,)
                 # Ahora creamos el registro de NumberAnswer
                 NumberAnswer.objects.create(
-                    value = value,
-                    answer_id = answer,
-                    question_id = question,
+					answer_id = answer,
+					question_id=question,
+					value=response,
                 )
 
             elif question_type == "email":
                 # Validamos que esa pregunta exista, es decir, que el question_id
                 #que se envía realmente exista en nuestra BBDD
                 try:
-                    question =EmailQuestion.objects.get(id=question_id)
+                    question =EmailQuestion.objects.get(id=question)
                 except EmailQuestion.DoesNotExist:
-                    return Response({"detail": f"Pregunta email con id {question_id} no encontrada"},
+                    return Response({"detail": f"Pregunta email con id {question} no encontrada"},
                         status=status.HTTP_404_NOT_FOUND,)
                 # Ahora creamos el registro de EmailAnswer
                 EmailAnswer.objects.create(
-                    value = value,
-                    answer_id = answer,
-                    question_id = question,
+                 	answer_id = answer,
+					question_id=question,
+					value=response,
                 )
 
             elif question_type == "scale":
                 # Validamos que esa pregunta exista, es decir, que el question_id
                 #que se envía realmente exista en nuestra BBDD
                 try:
-                    question =ScaleQuestion.objects.get(id=question_id)
+                    question =ScaleQuestion.objects.get(id=question)
                 except ScaleQuestion.DoesNotExist:
-                    return Response({"detail": f"Pregunta scale con id {question_id} no encontrada"},
+                    return Response({"detail": f"Pregunta scale con id {question} no encontrada"},
                         status=status.HTTP_404_NOT_FOUND,)
                 # Ahora creamos el registro de ScaleAnswer
                 ScaleAnswer.objects.create(
-                    value = value,
-                    answer_id = answer,
-                    question_id = question,
+                	answer_id = answer,
+					question_id=question,
+					value=response,
                 )
 
             elif question_type == "date":
                 # Validamos que esa pregunta exista, es decir, que el question_id
                 #que se envía realmente exista en nuestra BBDD
                 try:
-                    question =DateQuestion.objects.get(id=question_id)
+                    question =DateQuestion.objects.get(id=question)
                 except DateQuestion.DoesNotExist:
-                    return Response({"detail": f"Pregunta date con id {question_id} no encontrada"},
+                    return Response({"detail": f"Pregunta date con id {question} no encontrada"},
                         status=status.HTTP_404_NOT_FOUND,)
                 # Ahora creamos el registro de DateAnswer
                 DateAnswer.objects.create(
-                    value = value,
                     answer_id = answer,
-                    question_id = question,
+					question_id=question,
+					value=response,
                 )
 
             elif question_type == "url":
                 # Validamos que esa pregunta exista, es decir, que el question_id
                 #que se envía realmente exista en nuestra BBDD
                 try:
-                    question =URLQuestion.objects.get(id=question_id)
+                    question =URLQuestion.objects.get(id=question)
                 except URLQuestion.DoesNotExist:
-                    return Response({"detail": f"Pregunta url con id {question_id} no encontrada"},
+                    return Response({"detail": f"Pregunta url con id {question} no encontrada"},
                         status=status.HTTP_404_NOT_FOUND,)
                 # Ahora creamos el registro de URLAnswer
                 URLAnswer.objects.create(
-                    value = value,
                     answer_id = answer,
-                    question_id = question,
+					question_id=question,
+					value=response,
                 )
 
-            elif question_type == "file":
-                # Validamos que esa pregunta exista, es decir, que el question_id
-                #que se envía realmente exista en nuestra BBDD
-                try:
-                    question =FileQuestion.objects.get(id=question_id)
-                except FileQuestion.DoesNotExist:
-                    return Response({"detail": f"Pregunta file con id {question_id} no encontrada"},
-                        status=status.HTTP_404_NOT_FOUND,)
-                # Ahora creamos el registro de FileAnswer
-                FileAnswer.objects.create(
-                    value = value,
-                    answer_id = answer,
-                    question_id = question,
-                )
+            # elif question_type == "file":
+            #     # Validamos que esa pregunta exista, es decir, que el question_id
+            #     #que se envía realmente exista en nuestra BBDD
+            #     try:
+            #         question =FileQuestion.objects.get(id=question_id)
+            #     except FileQuestion.DoesNotExist:
+            #         return Response({"detail": f"Pregunta file con id {question_id} no encontrada"},
+            #             status=status.HTTP_404_NOT_FOUND,)
+            #     # Ahora creamos el registro de FileAnswer
+            #     FileAnswer.objects.create(
+            #         answer_id = answer,
+			# 		question_id=question,
+			# 		value=response,
+            #     )
 
             else:
                 return Response({"detail": f"Tipo de pregunta desconocido: {question_type}"},

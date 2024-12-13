@@ -1,7 +1,7 @@
 header {
     background-color: #030303;
     width: 100%;
-    height: 18vh;
+    height: 14vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -40,30 +40,25 @@ user-forms {
     }
 }
 
+
 .user-title-name {
     color: white;
     font-size: 1.5rem;
     font-weight: 700;
-    font-family: 'Source Sans 3', sans-serif;
+    font-family: 'Helvetica Neue', sans-serif;
     /* Text to mayus */
+    text-transform: uppercase;
 }
 
-.rounded-circle {
-    border-radius: 50%;
-    width: 7vw; /* Ajusta este valor según el tamaño que desees */
-    height: 7vw; /* Mantén la altura igual al ancho */
-    object-fit: cover; /* Esto asegura que la imagen se recorte correctamente sin deformarse */
-    #box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
-/*
+
 .rounded-circle {
     border-radius: 50%;
     width: 20%;
     max-width: 80px;
     min-width: 40px;
-    #border: 5px solid white;
+    border: 5px solid white;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}*/
+}
 
 /* Progress bar */
 .progress {
@@ -73,21 +68,16 @@ user-forms {
 
 @media (max-width: 768px) {
     header {
-        height: 14vh;
+        height: 10vh;
     }
 
     .user-title-name {
         font-size: 1.2rem;
     }
 
-    /*.rounded-circle {
-        width: 15%;
-        #border: 4px solid white;
-    }*/
-
     .rounded-circle {
-        width: 12vw; /* Ajusta el tamaño relativo en pantallas medianas */
-        height: 12vw; /* Mantén el aspecto cuadrado */
+        width: 15%;
+        border: 4px solid white;
     }
 
     .progress {
@@ -97,22 +87,18 @@ user-forms {
 
 @media (max-width: 576px) {
     header {
-        height: 12vh;
+        height: 8vh;
     }
 
     .user-title-name {
         font-size: 1rem;
     }
 
-    /*.rounded-circle {
-        width: 10%;
-        #border: 4px solid white;
-    }*/
-
     .rounded-circle {
-        width: 10vw; /* Ajusta el tamaño relativo en pantallas medianas */
-        height: 10vw; /* Mantén el aspecto cuadrado */
+        width: 10%;
+        border: 4px solid white;
     }
+
     .progress {
         font-size: 0.6rem;
     }
@@ -120,22 +106,18 @@ user-forms {
 
 @media (max-width: 480px) {
     header {
-        height: 12vh;
+        height: 6vh;
     }
 
     .user-title-name {
         font-size: 0.8rem;
     }
 
-    /*.rounded-circle {
-        width: 8%;
-        #border: 3px solid white;
-    }*/
-
     .rounded-circle {
-        width: 15vw; /* Ajusta el tamaño relativo en pantallas medianas */
-        height: 15vw; /* Mantén el aspecto cuadrado */
+        width: 8%;
+        border: 3px solid white;
     }
+
     .progress {
         font-size: 0.5rem;
     }
@@ -167,7 +149,7 @@ user-forms {
 /* Logout button */
 .logout-btn {
     color: #f3f3f3;
-    /*background-color: #ff4747;*/
+    background-color: #ff4747;
     border-radius: 5px;
     border: none;
     cursor: pointer;
@@ -177,7 +159,6 @@ user-forms {
     max-width: 100px;
     min-width: 100px;
     margin-right: 6vw;
-	margin-top: 2.5vh;
 }
 
 .logout-btn:hover {
@@ -219,14 +200,14 @@ user-forms {
 
 .theme-icon {
     cursor: pointer;
-    font-size: 1vw;
+    font-size: 1rem;
     color: white;
     position: absolute;
     right: 2vw;
-    top: 1.5vw;
+    top: 1vh;
     z-index: 10;
     /* add a shadow to the icon */
-    #text-shadow: 0 0 10px rgba(255, 255, 255, 1);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 1);
     /* add a transition effect */
     /* remove the default focus effect */
     outline: none;
@@ -251,32 +232,4 @@ user-forms {
 
 .theme-icon:active {
     transform: scale(0.9);
-}
-
-@media (max-width: 950px) {
-	.theme-icon {
-		font-size: 1.5vw;
-		top: 2vw;
-	}
-}
-
-@media (max-width: 768px) {
-	.theme-icon {
-		font-size: 1.5vw;
-		top: 1.5vw;
-	}
-}
-
-@media (max-width: 576px) {
-	.theme-icon {
-		font-size: 1.5vw;
-		top: 2vw;
-	}
-}
-
-@media (max-width: 480px) {
-	.theme-icon {
-		font-size: 2vw;
-		top: 2vw;
-	}
 }
