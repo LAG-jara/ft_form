@@ -12,7 +12,7 @@ services:
       - static-data:/vol/web
       - media-data:/vol/web/media
       - cache-data:/vol/cache
-      # - log-data:/vol/log:rw
+      - log-data:/vol/log:rw
     command: >
       sh -c "python manage.py wait_for_db &&
               python manage.py migrate &&
@@ -70,3 +70,9 @@ volumes:
       device: ./app/core/migrations
       o: bind
   
+  log-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./data/log
+      o: bind
