@@ -63,11 +63,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_cancel = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_42_staf = models.BooleanField(default=False)
-    role = models.CharField(max_length=50,unique=False, blank=True)
+    intra_id = models.PositiveIntegerField(default=0)
+    # role = models.CharField(max_length=50,unique=False, blank=True)
     coalition = JSONField(default=dict)
-    level = models.PositiveIntegerField(default=0)
-    age = models.PositiveIntegerField(default=0)
-    image_url = models.URLField(max_length=200, blank=True, null=True)
+    # level = models.PositiveIntegerField(default=0)
+    # age = models.PositiveIntegerField(default=0)
+    # image_url = models.URLField(max_length=200, blank=True, null=True)
 
     last_activity = models.DateTimeField(null=True, blank=True)
 

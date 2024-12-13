@@ -122,6 +122,7 @@ class Callback42API(APIView):
                 print("User authenticated successfully:", request.user.username)
             else:
                 print("User authentication failed")
+            
             refresh_token = RefreshToken.for_user(user)
             formatResponse = data_res_front | {
                 'refresh_token': str(refresh_token),
@@ -130,7 +131,8 @@ class Callback42API(APIView):
                 'id': user.id
                 #USER ID!!!
 
-             }
+            }
+            print("FINAL JSON: ", formatResponse)
                         #####
             # refresh_intra_token = RefreshToken(intra_token)
             # BLOCKLIST.add(str(intra_token))  # Replace with your blocklist logic (e.g., saving to DB/Redis)
@@ -155,7 +157,7 @@ def saveUser(token):
         user_img = None # here the default
         if user_data['image']['link']:
             user_img = user_data['image']['link']
-#        print("BEFORECOAL: ", user_img)
+        print("BEFORECOAL: ", user_img)
         coal_data = getCoalition(defaultUser(user_data.get('login'), user_data.get('staff?'), user_img), user_data.get('login'), token)
         # piscine / student / alumni
         return JsonResponse(coal_data)
