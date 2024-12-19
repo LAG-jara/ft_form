@@ -41,7 +41,23 @@ class UserForms extends HTMLElement {
 	//   this.shadow.appendChild(generalBootstrap);
 	  this.shadow.appendChild(bootstrap);
 	}
+	addNoForms() {
+		const GridOfCards = this.container.querySelector('#appendCardsHere');
 	
+		if (GridOfCards) {
+			const noFormsMessage = document.createElement('h2');
+			noFormsMessage.textContent = 'There are no questionnaires available yet, but exciting content is coming soon!';
+			// Apply styles to the h2 for absolute centering
+			noFormsMessage.style.position = 'fixed';
+			noFormsMessage.style.top = '50%';
+			noFormsMessage.style.left = '50%';
+			noFormsMessage.style.transform = 'translate(-50%, -50%)';
+			noFormsMessage.style.textAlign = 'center';
+			noFormsMessage.style.maxWidth = '600px';
+			noFormsMessage.style.wordWrap = 'break-word';
+			GridOfCards.appendChild(noFormsMessage);
+		}
+	}
 	addCard({ id, title, startDate, endDate, state, color, minutes, imageUrl, theme_color }) {
 		const GridOfCards = this.container.querySelector('#appendCardsHere');
 	
@@ -95,7 +111,7 @@ class UserForms extends HTMLElement {
                     <div class="row ms-2 me-2 mt-5">
                         <div class="col-md-12 d-flex justify-content-end align-items-end mt-3">
                           
-                            <button onclick="window.location.href='http://localhost:8000/answerForm?formid=${id}&userid=${localStorage.getItem('id')}';" type="button" class="btn " style="background-color: ${color}; border 0px; font-weight: bold; color: white;">ENTER</button>
+                            <button onclick="window.location.href='http://localhost:8000/answerForm?formId=${id}&userId=${localStorage.getItem('id')}';" type="button" class="btn " style="background-color: ${color}; border 0px; font-weight: bold; color: white;">ENTER</button>
                         </div>
                     </div>
 			`;
@@ -207,7 +223,6 @@ class UserForms extends HTMLElement {
 
 		// Make the GET request
 		let token = getCookie('access_token');
-		console.log(token);
 		fetch(url, {
 			method: 'GET',
 			headers: {
@@ -222,6 +237,11 @@ class UserForms extends HTMLElement {
 				return response.json();
 			})
 			.then(data => {
+				if (data.length === 0) {
+					console.log('No forms found');
+					this.addNoForms()
+					return;
+				}
 				data.forEach(element => {
 					console.log(element);
 					this.addCard({
@@ -239,17 +259,6 @@ class UserForms extends HTMLElement {
 			.catch(error => {
 				console.error('There was a problem with the fetch operation:', error);
 			});
-
-		// this.addCard({
-		// 	id: 1,
-		// 	title: "Formulario Empleo Estudiantes",
-		// 	startDate: "01/11/2024",
-		// 	endDate: "15/11/2024",
-		// 	badges: [{ text: "Info", }, { text: "Alert" }],
-		// 	state: 'Complete',
-		// 	color: '#3ED008',
-		// 	imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5GQARsHihVdu6u6zx-dPvQy9z42nlQXo8bg&s'
-		//   });
 	}
   }
   
